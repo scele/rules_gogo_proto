@@ -624,7 +624,6 @@ _gogo_protobuf_repositories = {
     "github.com/golang/protobuf":             "83cd65fc365ace80eb6b6ecfc45203e43edfbc70",
     "github.com/google/protobuf":             "6699f2cf64c656d96f4d6f93fa9563faf02e94b4",
     "github.com/grpc-ecosystem/grpc-gateway": "f2862b476edcef83412c7af8687c9cd8e4097c0f",
-    "github.com/jteeuwen/go-bindata":         "a0ff2567cfb70903282db057e799fd826784d41d",
     "github.com/mwitkow/go-proto-validators": "a55ca57f374a8846924b030f534d8b8211508cf0",
     "golang.org/x/net":                       "5961165da77ad3a2abf3a77ea904c13a76b0b073",
     "golang.org/x/text":                      "e113a52b01bdd1744681b6ce70c2e3d26b58d389",
@@ -635,6 +634,16 @@ _gogo_protobuf_repositories = {
 def gogo_protobuf_repositories():
     for importpath, commit in _gogo_protobuf_repositories.items():
         _maybe_go_repository(importpath, commit)
+
+    # jteeuwen disappeared from github, clone from scele instead.
+    if "com_github_jteeuwen_go_bindata" not in native.existing_rules():
+        go_repository(
+            name = "com_github_jteeuwen_go_bindata",
+            importpath = "github.com/jteeuwen/go-bindata",
+            urls = ["https://github.com/scele/go-bindata/archive/a0ff2567cfb70903282db057e799fd826784d41d.tar.gz"],
+            strip_prefix = "go-bindata-a0ff2567cfb70903282db057e799fd826784d41d/",
+        )
+
 
 def _go_repository_name(importpath):
     a, b = importpath.split('/', 1)
